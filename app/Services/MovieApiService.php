@@ -26,7 +26,7 @@ class MovieApiService
         return $response->json();
     }
 
-    public function getMovieDetails(int $movieId) 
+    public function getMovieDetails(int $movieId): mixed 
     {
         $response = Http::get("{$this->baseUrl}/movie/{$movieId}", [
             'api_key' => $this->apiKey,

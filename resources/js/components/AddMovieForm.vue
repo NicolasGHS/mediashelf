@@ -47,8 +47,9 @@
     <div>
         <h2>Search Results:</h2>
         <ul>
-            <li v-for="movie in movies" :key="movie.id">
-                {{ movie.title }}
+            <li v-for="movie in movies" :key="movie.id" class="mb-2 border rounded p-1">
+                <p>{{ movie.title }}</p>
+                <p>{{ movie.release_date }}</p>
             </li>
         </ul>
     </div>
