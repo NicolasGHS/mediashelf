@@ -22,6 +22,7 @@
     }
 </script>
 <template>
+    <h2>Search Movie</h2>
     <form @submit.prevent="submit">
         <div>
             <InputLabel value="name" />
