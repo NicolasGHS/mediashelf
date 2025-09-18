@@ -27,6 +27,8 @@
         <div>
             <InputLabel value="name" />
 
+            <div class="flex items-center gap-2">
+
             <TextInput 
                 v-model="query"
                 id="name" 
@@ -35,7 +37,10 @@
                 autofocus
             />
 
-            <PrimaryButton />
+            <button class="border p-1 rounded">
+                Search
+            </button>
+            </div>
         </div>
     </form>
 
