@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\MovieApiService;
+use Illuminate\Support\Facades\Log;
 
 class MovieController extends Controller
 {
@@ -31,4 +32,11 @@ class MovieController extends Controller
 
         return response()->json($movie);
     }
+
+   public function getImagePath(Request $request) 
+    {
+        $config = $this->movieApi->getImagePath();
+        return response()->json($config);
+    }
+    
 }
