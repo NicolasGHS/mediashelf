@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import AddMovieForm from '@/components/AddMovieForm.vue';
+import { Button } from 'primevue';
 </script>
 
 <template>
@@ -20,6 +21,7 @@ import AddMovieForm from '@/components/AddMovieForm.vue';
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
                     <AddMovieForm />
+                    <Button label="Test button" />
                 </div>
             </div>
         </div>

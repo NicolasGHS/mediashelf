@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 
@@ -32,5 +33,18 @@ class MovieApiService
             'api_key' => $this->apiKey,
         ]);
         return $response->json();
+    }
+
+    public function getImagePath()
+    {
+        $response = Http::get("{$this->baseUrl}/configuration", [
+            'api_key' => $this->apiKey,
+        ]);
+
+        $data = $response->json();
+        return [
+            'base_url' => $data['images']['secure_base_url'],
+            'poster_sizes' => $data['images']['poster_sizes']
+        ];
     }
 }

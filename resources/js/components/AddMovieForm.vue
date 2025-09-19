@@ -1,13 +1,13 @@
 <script setup>
     import InputLabel from '@/Components/InputLabel.vue';
     import TextInput from '@/Components/TextInput.vue';
-    import PrimaryButton from '@/Components/PrimaryButton.vue';
-    import { ref } from "vue";
+    import { ref, onMounted } from "vue";
 
     const query = ref("");
     const movies = ref([]);
+    const imageConfig = ref(null);
 
-    console.log("movies: ", movies);
+    console.log("movies: ", movies.value);
 
     const submit = async () => {
         try {
@@ -20,6 +20,17 @@
             console.error("error fetching movies: ", error);
         }
     }
+
+    const fetchImageConfig = async () => {
+        try {
+            const res = await axios.get(route("movies.imagePath"));
+            imageConfig.value = res.data;
+        } catch (error) {
+            console.error("error fetching image path:", error);
+        }
+    }
+
+    onMounted(fetchImageConfig);
 </script>
 <template>
     <h2>Search Movie</h2>
@@ -47,9 +58,17 @@
     <div>
         <h2>Search Results:</h2>
         <ul>
-            <li v-for="movie in movies" :key="movie.id" class="mb-2 border rounded p-1">
-                <p>{{ movie.title }}</p>
-                <p>{{ movie.release_date }}</p>
+            <li v-for="movie in movies" :key="movie.id" class="flex gap-1 mb-2 border rounded p-1">
+                <img 
+                    v-if="imageConfig" 
+                    :src="`${imageConfig.base_url}${imageConfig.poster_sizes[2]}${movie.poster_path}`" 
+                    alt="poster"
+                    class="w-20 rounded"
+                />
+                <div>
+                    <p class="text-black">{{ movie.title }}</p>
+                    <p class="text-black">{{ movie.release_date }}</p>
+                </div>
             </li>
         </ul>
     </div>
