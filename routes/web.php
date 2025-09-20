@@ -19,6 +19,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/movie/{movie}', function ($movieId) {
+    return Inertia::render('Movies/Movie', [
+        'movieId' => $movieId,
+    ]);;
+})->middleware(['auth','verified'])->name('movie');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

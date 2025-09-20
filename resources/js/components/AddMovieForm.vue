@@ -2,6 +2,8 @@
     import InputLabel from '@/Components/InputLabel.vue';
     import TextInput from '@/Components/TextInput.vue';
     import { ref, onMounted } from "vue";
+    import { Link } from '@inertiajs/vue3';
+
 
     const query = ref("");
     const movies = ref([]);
@@ -59,16 +61,18 @@
         <h2>Search Results:</h2>
         <ul>
             <li v-for="movie in movies" :key="movie.id" class="flex gap-1 mb-2 border rounded p-1">
-                <img 
-                    v-if="imageConfig" 
-                    :src="`${imageConfig.base_url}${imageConfig.poster_sizes[2]}${movie.poster_path}`" 
-                    alt="poster"
-                    class="w-20 rounded"
-                />
-                <div>
-                    <p class="text-black">{{ movie.title }}</p>
-                    <p class="text-black">{{ movie.release_date }}</p>
-                </div>
+                <Link :href="route('movie', movie.id)" class="flex gap-2">
+                    <img 
+                        v-if="imageConfig" 
+                        :src="`${imageConfig.base_url}${imageConfig.poster_sizes[2]}${movie.poster_path}`" 
+                        alt="poster"
+                        class="w-20 rounded"
+                    />
+                    <div>
+                        <p class="text-black">{{ movie.title }}</p>
+                        <p class="text-black">{{ movie.release_date }}</p>
+                    </div>
+                </Link>
             </li>
         </ul>
     </div>
