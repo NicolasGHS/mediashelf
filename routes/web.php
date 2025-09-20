@@ -30,7 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get("/movies/search", [MovieController::class, "search"])->name("movies.search");
-    Route::post("/movies", [MovieController::class,"save"])->name("movies.save");
+    Route::get("/movies/{id}", [MovieController::class, "getMovieById"])->name("movies.getById");
+    Route::post("/movies", [MovieController::class, "save"])->name("movies.save");
     Route::get("/movies/imagePath", [MovieController::class, "getImagePath"])->name("movies.imagePath");
 });
 

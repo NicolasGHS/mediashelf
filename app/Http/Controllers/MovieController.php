@@ -15,6 +15,12 @@ class MovieController extends Controller
         $this->movieApi = $movieApi;
     }
 
+    public function getMovieById($id) 
+    {
+        $movie = $this->movieApi->findById($id);
+        return $movie;
+    }
+
     public function search(Request $request) 
     {
         $query = $request->input('query');

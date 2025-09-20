@@ -17,6 +17,15 @@ class MovieApiService
         $this->baseUrl = "https://api.themoviedb.org/3";
     }
 
+    public function findById($id)
+    {
+        $response = Http::get($this->baseUrl."/movie/".$id, [
+            'api_key' => $this->apiKey
+        ]);
+
+        return $response->json();
+    }
+
     public function searchMovies(string $query, int $page = 1)
     {
         $response = Http::get("{$this->baseUrl}/search/movie", [
