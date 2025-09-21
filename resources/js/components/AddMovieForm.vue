@@ -8,16 +8,15 @@
     const query = ref("");
     const movies = ref([]);
     const imageConfig = ref(null);
+    // TODO: make dynamic
     const imagePath = "https://image.tmdb.org/t/p/w92/";
 
-    console.log("movies: ", movies.value);
 
     const submit = async () => {
         try {
             const res = await axios.get(route("movies.search"), {
                 params: {query: query.value }
             })
-            console.log("res: ", res);
             movies.value = res.data.results;
         } catch (error) {
             console.error("error fetching movies: ", error);
