@@ -8,6 +8,7 @@
     const query = ref("");
     const movies = ref([]);
     const imageConfig = ref(null);
+    const imagePath = "https://image.tmdb.org/t/p/w92/";
 
     console.log("movies: ", movies.value);
 
@@ -16,7 +17,7 @@
             const res = await axios.get(route("movies.search"), {
                 params: {query: query.value }
             })
-            console.log("response: ", res);
+            console.log("res: ", res);
             movies.value = res.data.results;
         } catch (error) {
             console.error("error fetching movies: ", error);
@@ -64,7 +65,7 @@
                 <Link :href="route('movie', movie.id)" class="flex gap-2">
                     <img 
                         v-if="imageConfig" 
-                        :src="`${imageConfig.base_url}${imageConfig.poster_sizes[2]}${movie.poster_path}`" 
+                        :src="`${imagePath}/${movie.poster_path}`" 
                         alt="poster"
                         class="w-20 rounded"
                     />

@@ -46,14 +46,14 @@ class MovieApiService
 
     public function getImagePath()
     {
-        $response = Http::get("{$this->baseUrl}/configuration", [
-            'api_key' => $this->apiKey,
-        ]);
+        // $response = Http::get("{$this->baseUrl}/configuration", [
+        //     'api_key' => $this->apiKey,
+        // ]);
 
-        $data = $response->json();
-        return [
-            'base_url' => $data['images']['secure_base_url'],
-            'poster_sizes' => $data['images']['poster_sizes']
-        ];
+        // $data = $response->json();
+        // return $data;
+        $url = "https://image.tmdb.org/t/p/w92/";
+        return $url;
+
     }
 }

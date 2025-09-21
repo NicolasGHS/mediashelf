@@ -41,8 +41,8 @@ class MovieController extends Controller
 
    public function getImagePath(Request $request) 
     {
-        $config = $this->movieApi->getImagePath();
-        return response()->json($config);
+        $response = $this->movieApi->getImagePath();
+        return $response;
     }
     
 }
