@@ -1,4 +1,6 @@
 <script setup>
+    import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+    import { Head } from '@inertiajs/vue3';
     import MovieDetails from "@/components/MovieDetails.vue";
     import { ref, onMounted } from "vue";
 
@@ -25,19 +27,36 @@
     onMounted(fetchData);
 </script>
 <template>
-    <div class="items-center  w-full">
-        <div v-if="movie" class="flex items-center gap-8 w-full justify-center mt-10">
-            <img 
-                :src="`${imagePath}/${movie.poster_path}`" 
-            />
-            <div class="w-1/2">
-                <h1 class="text-2xl mb-2">{{ movie.original_title }}</h1>
-                <p>{{ movie.overview }}</p>
+    <Head title="Movie Details" />
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+                Movie Details
+            </h2>
+        </template>
+        
+        <div class="py-12">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        <div v-if="movie" class="flex items-start gap-8 w-full">
+                            <img 
+                                :src="`${imagePath}/${movie.poster_path}`" 
+                                :alt="movie.original_title"
+                                class="rounded-lg shadow-md"
+                            />
+                            <div class="flex-1">
+                                <h1 class="text-3xl font-bold mb-4 text-gray-800">{{ movie.original_title }}</h1>
+                                <p class="text-gray-600 leading-relaxed mb-6">{{ movie.overview }}</p>
+                                <MovieDetails :movieItem="movie" />
+                            </div>
+                        </div>
+                        <div v-else class="text-center py-8">
+                            <p class="text-gray-500">Loading movie details...</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div v-else>
-            <p>Loading...</p>
-        </div>
-        <MovieDetails :movieItem="movie" />
-    </div>
+    </AuthenticatedLayout>
 </template>
