@@ -33,6 +33,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function movies() 
+    {
+        return $this->belongsToMany(Movie::class, 'user_movie');
+    }
+
     /**
      * Get the attributes that should be cast.
      *

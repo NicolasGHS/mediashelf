@@ -44,5 +44,22 @@ class MovieController extends Controller
         $response = $this->movieApi->getImagePath();
         return $response;
     }
-    
+
+    public function getWatchStatus(Request $request, $movieId)
+    {
+        $userId = auth()->id();
+        
+        if (!$userId) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $status = $this->movieApi->getStatus($userId, $movieId);
+
+        return response()->json([
+            'user_id' => $userId,
+            'movie_id' => $movieId,
+            'status' => $status
+        ]);
+    }
+
 }

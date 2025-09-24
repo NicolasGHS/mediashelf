@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 
 class MovieApiService 
@@ -55,5 +56,15 @@ class MovieApiService
         $url = "https://image.tmdb.org/t/p/w92/";
         return $url;
 
+    }
+
+    public function getStatus(int $userId, int $movieId): string
+    {
+        $exists = DB::table('user_movie')
+            ->where('user_id', $userId)
+            ->where('movie_id', $movieId)
+            ->exists();
+
+        return $exists ? 'watched' : 'not_watched';
     }
 }

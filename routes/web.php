@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get("/movies/{id}", [MovieController::class, "getMovieById"])->name("movies.getById");
     Route::post("/movies", [MovieController::class, "save"])->name("movies.save");
     Route::get("/movies/imagePath", [MovieController::class, "getImagePath"])->name("movies.imagePath");
+    Route::get('/movies/{movieId}/status', [MovieController::class, 'getWatchStatus'])->name("movies.getStatus");
 });
 
 require __DIR__.'/auth.php';

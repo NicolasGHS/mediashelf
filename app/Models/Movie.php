@@ -13,6 +13,11 @@ class Movie extends Model
      */
     protected $table = 'movie';
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_movie');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

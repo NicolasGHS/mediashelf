@@ -9,6 +9,7 @@
     });
 
     const movie = ref(null);
+    const status = ref(null);
     const id = 132493;
     const imagePath = "https://image.tmdb.org/t/p/w185";
 
@@ -24,7 +25,18 @@
         }
     }
 
+    const getStatus = async () => {
+        try {
+            const res = await axios.get(route("movies.getStatus", props.movieId));    
+            console.log("status response: ", res);
+            status.value = res.data.status;
+        } catch (error) {
+            console.error("failed to fetch status: ", error); 
+        }
+    }
+
     onMounted(fetchData);
+    onMounted(getStatus);
 </script>
 <template>
     <Head title="Movie Details" />
