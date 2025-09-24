@@ -3,6 +3,7 @@
     import { Head } from '@inertiajs/vue3';
     import MovieDetails from "@/components/MovieDetails.vue";
     import { ref, onMounted } from "vue";
+import WatchStatus from '@/components/WatchStatus.vue';
 
     const props = defineProps({
         movieId: Number
@@ -52,11 +53,14 @@
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div v-if="movie" class="flex items-start gap-8 w-full">
-                            <img 
-                                :src="`${imagePath}/${movie.poster_path}`" 
-                                :alt="movie.original_title"
-                                class="rounded-lg shadow-md"
-                            />
+                            <div class="flex flex-col items-center">
+                                <img 
+                                    :src="`${imagePath}/${movie.poster_path}`" 
+                                    :alt="movie.original_title"
+                                    class="rounded-lg shadow-md mb-3"
+                                />
+                                <WatchStatus :status="status" />
+                            </div>
                             <div class="flex-1">
                                 <h1 class="text-3xl font-bold mb-4 text-gray-800">{{ movie.original_title }}</h1>
                                 <p class="text-gray-600 leading-relaxed mb-6">{{ movie.overview }}</p>

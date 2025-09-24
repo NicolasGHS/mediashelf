@@ -65,6 +65,6 @@ class MovieApiService
             ->where('movie_id', $movieId)
             ->exists();
 
-        return $exists ? 'watched' : 'not_watched';
+        return $exists ? 'Watched' : 'Not Watched';
     }
 }
