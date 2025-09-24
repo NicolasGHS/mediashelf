@@ -1,14 +1,20 @@
 <script setup>
     import MovieDetails from "@/components/MovieDetails.vue";
-import { ref, onMounted } from "vue";
+    import { ref, onMounted } from "vue";
+
+    const props = defineProps({
+        movieId: Number
+    });
 
     const movie = ref(null);
     const id = 132493;
     const imagePath = "https://image.tmdb.org/t/p/w185";
 
+    
+
     const fetchData = async () => {
         try {
-           const res = await axios.get(route("movies.getById", id)); 
+           const res = await axios.get(route("movies.getById", props.movieId)); 
            movie.value = res.data;
            console.log("movie: ", movie.value);
         } catch (error) {
