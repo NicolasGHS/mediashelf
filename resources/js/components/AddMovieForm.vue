@@ -3,6 +3,7 @@
     import TextInput from '@/Components/TextInput.vue';
     import { ref, onMounted } from "vue";
     import { Link } from '@inertiajs/vue3';
+    import { Button } from 'primevue';
 
 
     const query = ref("");
@@ -50,9 +51,9 @@
                 autofocus
             />
 
-            <button class="border p-1 rounded">
+            <Button class="border p-1 rounded">
                 Search
-            </button>
+            </Button>
             </div>
         </div>
     </form>
