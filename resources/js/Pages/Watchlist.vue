@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import MovieCard from '@/components/MovieCard.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -11,6 +12,10 @@ defineProps({
     wantToWatchMovies: {
         type: Array,
         default: () => []
+    },
+    imageBasePath: {
+        type: String,
+        default: "https://image.tmdb.org/t/p/w92/"
     }
 });
 
@@ -64,13 +69,14 @@ const activeTab = ref('want-to-watch');
                         <div v-if="wantToWatchMovies.length === 0" class="text-gray-500 text-center py-8">
                             No movies in your watchlist yet.
                         </div>
-                        <ul v-else class="divide-y divide-gray-200">
-                            <li v-for="movie in wantToWatchMovies" :key="movie.tmdb_id" class="py-3">
-                                <div class="text-sm font-medium text-gray-900">
-                                    {{ movie.title || 'Untitled Movie' }}
-                                </div>
-                            </li>
-                        </ul>
+                        <div v-else class="space-y-3">
+                            <MovieCard 
+                                v-for="movie in wantToWatchMovies" 
+                                :key="movie.tmdb_id" 
+                                :movie="movie"
+                                :imagePath="imageBasePath"
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -81,13 +87,14 @@ const activeTab = ref('want-to-watch');
                         <div v-if="watchedMovies.length === 0" class="text-gray-500 text-center py-8">
                             No watched movies yet.
                         </div>
-                        <ul v-else class="divide-y divide-gray-200">
-                            <li v-for="movie in watchedMovies" :key="movie.tmdb_id" class="py-3">
-                                <div class="text-sm font-medium text-gray-900">
-                                    {{ movie.title || 'Untitled Movie' }}
-                                </div>
-                            </li>
-                        </ul>
+                        <div v-else class="space-y-3">
+                            <MovieCard 
+                                v-for="movie in watchedMovies" 
+                                :key="movie.tmdb_id" 
+                                :movie="movie"
+                                :imagePath="imageBasePath"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
