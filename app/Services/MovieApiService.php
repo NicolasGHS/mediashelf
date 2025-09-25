@@ -58,13 +58,74 @@ class MovieApiService
 
     }
 
-    public function getStatus(int $userId, int $movieId): string
+    public function getStatus(int $userId, int $movieId): ?string
     {
-        $exists = DB::table('user_movie')
-            ->where('user_id', $userId)
-            ->where('movie_id', $movieId)
-            ->exists();
+        // Find the local movie by tmdb_id
+        $localMovie = DB::table('movie')->where('tmdb_id', $movieId)->first();
+        
+        if (!$localMovie) {
+            return null;
+        }
 
-        return $exists ? 'Watched' : 'Not Watched';
+        $record = DB::table('user_movie')
+            ->where('user_id', $userId)
+            ->where('movie_id', $localMovie->id)
+            ->first();
+
+        return $record ? $record->status : null;
+    }
+
+    public function updateStatus(int $userId, int $movieId, string $status): bool
+    {
+        try {
+            // First, check if movie exists by tmdb_id
+            $movieExists = DB::table('movie')->where('tmdb_id', $movieId)->exists();
+            
+            if (!$movieExists) {
+                // Fetch movie details from TMDB and create the record
+                $movieDetails = $this->findById($movieId);
+                
+                if ($movieDetails && !isset($movieDetails['success']) || $movieDetails['success'] !== false) {
+                    DB::table('movie')->insert([
+                        'tmdb_id' => $movieId,
+                        'title' => $movieDetails['title'] ?? null,
+                        'overview' => $movieDetails['overview'] ?? null,
+                        'poster_path' => $movieDetails['poster_path'] ?? null,
+                        'release_date' => isset($movieDetails['release_date']) ? $movieDetails['release_date'] : null,
+                        'user_id' => $userId,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                } else {
+                    // If TMDB API fails, create minimal record
+                    DB::table('movie')->insert([
+                        'tmdb_id' => $movieId,
+                        'user_id' => $userId,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                }
+            }
+
+            // Get the local movie ID
+            $localMovie = DB::table('movie')->where('tmdb_id', $movieId)->first();
+            
+            // Now update or insert the user_movie relationship
+            DB::table('user_movie')->updateOrInsert(
+                [
+                    'user_id' => $userId,
+                    'movie_id' => $localMovie->id
+                ],
+                [
+                    'status' => $status,
+                    'updated_at' => now(),
+                    'created_at' => now()
+                ]
+            );
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Failed to update movie status: ' . $e->getMessage());
+            return false;
+        }
     }
 }

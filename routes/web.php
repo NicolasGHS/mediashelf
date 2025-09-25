@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post("/movies", [MovieController::class, "save"])->name("movies.save");
     Route::get("/movies/imagePath", [MovieController::class, "getImagePath"])->name("movies.imagePath");
     Route::get('/movies/{movieId}/status', [MovieController::class, 'getWatchStatus'])->name("movies.getStatus");
+    Route::put('/movies/{movieId}/status', [MovieController::class, 'updateWatchStatus'])->name("movies.updateStatus");
 });
 
 require __DIR__.'/auth.php';

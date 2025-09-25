@@ -62,4 +62,29 @@ class MovieController extends Controller
         ]);
     }
 
+    public function updateWatchStatus(Request $request, $movieId)
+    {
+        $userId = auth()->id();
+        
+        if (!$userId) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $request->validate([
+            'status' => 'required|in:want_to_watch,watched'
+        ]);
+
+        $status = $request->input('status');
+
+        // Use the service to update the status
+        $result = $this->movieApi->updateStatus($userId, $movieId, $status);
+
+        return response()->json([
+            'user_id' => $userId,
+            'movie_id' => $movieId,
+            'status' => $status,
+            'success' => $result
+        ]);
+    }
+
 }

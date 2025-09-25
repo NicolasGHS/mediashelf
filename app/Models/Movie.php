@@ -24,7 +24,12 @@ class Movie extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        // Only id and timestamps remain after migration
+        'tmdb_id',
+        'title', 
+        'overview',
+        'poster_path',
+        'release_date',
+        'user_id'
     ];
 
     /**
