@@ -7,7 +7,7 @@
 
 
     const query = ref("");
-    const movies = ref([]);
+    const movies = ref();
     const imageConfig = ref(null);
     // TODO: make dynamic
     const imagePath = "https://image.tmdb.org/t/p/w92/";
@@ -40,26 +40,26 @@
     <form @submit.prevent="submit">
         <div>
             <InputLabel value="name" />
-
-            <div class="flex items-center gap-2">
-
-            <TextInput 
-                v-model="query"
-                id="name" 
-                class="mt-1 block w-full"
-                required
-                autofocus
-            />
-
-            <Button class="border p-1 rounded">
-                Search
-            </Button>
+            <div class="flex items-center justify-center gap-2">
+                <TextInput 
+                    v-model="query"
+                    id="name" 
+                    class="mt-1 block w-3/4 text-black"
+                    required
+                    autofocus
+                />
+                <Button 
+                    type="submit"
+                    class="border p-1 rounded"
+                >
+                    Search
+                </Button>
             </div>
         </div>
     </form>
 
     <div>
-        <h2>Search Results:</h2>
+        <h2 v-if="movies" class="text-black">Search Results:</h2>
         <ul>
             <li v-for="movie in movies" :key="movie.id" class="flex gap-1 mb-2 border rounded p-1">
                 <Link :href="route('movie', movie.id)" class="flex gap-2">

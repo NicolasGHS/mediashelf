@@ -11,7 +11,6 @@ import WatchStatus from '@/components/WatchStatus.vue';
 
     const movie = ref(null);
     const status = ref(null);
-    const id = 132493;
     const imagePath = "https://image.tmdb.org/t/p/w185";
 
     
@@ -33,6 +32,24 @@ import WatchStatus from '@/components/WatchStatus.vue';
             status.value = res.data.status;
         } catch (error) {
             console.error("failed to fetch status: ", error); 
+        }
+    }
+
+    const handleStatusChange = async (data) => {
+        try {
+            const res = await axios.put(route("movies.updateStatus", data.movieId), {
+                status: data.status
+            });
+            
+            if (res.data.success) {
+                // Update the local status value
+                status.value = data.status;
+                console.log("Status updated successfully:", res.data);
+            } else {
+                console.error("Failed to update status:", res.data);
+            }
+        } catch (error) {
+            console.error("Error updating status:", error);
         }
     }
 
@@ -59,7 +76,11 @@ import WatchStatus from '@/components/WatchStatus.vue';
                                     :alt="movie.original_title"
                                     class="rounded-lg shadow-md mb-3"
                                 />
-                                <WatchStatus :status="status" />
+                                <WatchStatus 
+                                    :status="status" 
+                                    :movieId="props.movieId"
+                                    @statusChanged="handleStatusChange" 
+                                />
                             </div>
                             <div class="flex-1">
                                 <h1 class="text-3xl font-bold mb-4 text-gray-800">{{ movie.original_title }}</h1>
