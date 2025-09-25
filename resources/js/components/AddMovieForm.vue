@@ -1,9 +1,9 @@
 <script setup>
-    import InputLabel from '@/Components/InputLabel.vue';
-    import TextInput from '@/Components/TextInput.vue';
     import { ref, onMounted } from "vue";
     import { Link } from '@inertiajs/vue3';
     import { Button } from 'primevue';
+    import InputText from 'primevue/inputtext';
+    import Card from 'primevue/card';
 
 
     const query = ref("");
@@ -36,45 +36,57 @@
     onMounted(fetchImageConfig);
 </script>
 <template>
-    <h2>Search Movie</h2>
-    <form @submit.prevent="submit">
-        <div>
-            <InputLabel value="name" />
-            <div class="flex items-center justify-center gap-2">
-                <TextInput 
-                    v-model="query"
-                    id="name" 
-                    class="mt-1 block w-3/4 text-black"
-                    required
-                    autofocus
-                />
-                <Button 
-                    type="submit"
-                    class="border p-1 rounded"
-                >
-                    Search
-                </Button>
-            </div>
-        </div>
-    </form>
-
-    <div>
-        <h2 v-if="movies" class="text-black">Search Results:</h2>
-        <ul>
-            <li v-for="movie in movies" :key="movie.id" class="flex gap-1 mb-2 border rounded p-1">
-                <Link :href="route('movie', movie.id)" class="flex gap-2">
-                    <img 
-                        v-if="imageConfig" 
-                        :src="`${imagePath}/${movie.poster_path}`" 
-                        alt="poster"
-                        class="w-20 rounded"
-                    />
-                    <div>
-                        <p class="text-black">{{ movie.title }}</p>
-                        <p class="text-black">{{ movie.release_date }}</p>
+    <div class="space-y-4">
+        <Card>
+            <template #title>
+                <h2>Search Movie</h2>
+            </template>
+            <template #content>
+                <form @submit.prevent="submit" class="space-y-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="name" class="font-medium">Movie Name</label>
+                        <div class="flex items-center gap-2">
+                            <InputText 
+                                v-model="query"
+                                id="name" 
+                                class="flex-1"
+                                placeholder="Enter movie name..."
+                                required
+                                autofocus
+                            />
+                            <Button 
+                                type="submit"
+                                label="Search"
+                                severity="primary"
+                            />
+                        </div>
                     </div>
-                </Link>
-            </li>
-        </ul>
+                </form>
+            </template>
+        </Card>
+
+        <Card v-if="movies">
+            <template #title>
+                <h2>Search Results</h2>
+            </template>
+            <template #content>
+                <div class="space-y-3">
+                    <div v-for="movie in movies" :key="movie.id" class="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                        <Link :href="route('movie', movie.id)" class="flex gap-3 p-3 hover:bg-gray-50">
+                            <img 
+                                v-if="imageConfig" 
+                                :src="`${imagePath}/${movie.poster_path}`" 
+                                alt="poster"
+                                class="w-20 rounded"
+                            />
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-900">{{ movie.title }}</p>
+                                <p class="text-gray-600">{{ movie.release_date }}</p>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+            </template>
+        </Card>
     </div>
 </template>
