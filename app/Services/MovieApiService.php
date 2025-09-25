@@ -128,4 +128,30 @@ class MovieApiService
             return false;
         }
     }
+
+    public function getUserMoviesByStatus(int $userId, string $status): array
+    {
+        try {
+            $movies = DB::table('user_movie')
+                ->join('movie', 'user_movie.movie_id', '=', 'movie.id')
+                ->where('user_movie.user_id', $userId)
+                ->where('user_movie.status', $status)
+                ->select(
+                    'movie.tmdb_id',
+                    'movie.title',
+                    'movie.overview',
+                    'movie.poster_path',
+                    'movie.release_date',
+                    'user_movie.status',
+                    'user_movie.updated_at as status_updated_at'
+                )
+                ->orderBy('user_movie.updated_at', 'desc')
+                ->get();
+
+            return $movies->toArray();
+        } catch (\Exception $e) {
+            Log::error('Failed to get user movies by status: ' . $e->getMessage());
+            return [];
+        }
+    }
 }

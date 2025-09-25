@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\MovieApiService;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class MovieController extends Controller
 {
@@ -85,6 +86,25 @@ class MovieController extends Controller
             'movie_id' => $movieId,
             'status' => $status,
             'success' => $result
+        ]);
+    }
+
+    public function watchlist()
+    {
+        $userId = auth()->id();
+        
+        if (!$userId) {
+            return redirect()->route('login');
+        }
+
+        // Get user's movies with their watch status
+        $watchedMovies = $this->movieApi->getUserMoviesByStatus($userId, 'watched');
+        $wantToWatchMovies = $this->movieApi->getUserMoviesByStatus($userId, 'want_to_watch');
+
+        return Inertia::render('Watchlist', [
+            'watchedMovies' => $watchedMovies,
+            'wantToWatchMovies' => $wantToWatchMovies,
+            'imageBasePath' => $this->movieApi->getImagePath()
         ]);
     }
 

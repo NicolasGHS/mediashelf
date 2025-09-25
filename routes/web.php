@@ -19,6 +19,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/watchlist', [MovieController::class, 'watchlist'])->middleware(['auth', 'verified'])->name('watchlist');
+
 Route::get('/movie/{movie}', function ($movieId) {
     return Inertia::render('Movies/Movie', [
         'movieId' => $movieId,

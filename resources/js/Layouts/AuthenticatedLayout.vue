@@ -39,6 +39,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('watchlist')"
+                                    :active="route().current('watchlist')"
+                                >
+                                    My Watchlist
+                                </NavLink>
                             </div>
                         </div>
 
@@ -145,6 +151,12 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('watchlist')"
+                            :active="route().current('watchlist')"
+                        >
+                            My Watchlist
                         </ResponsiveNavLink>
                     </div>
 
