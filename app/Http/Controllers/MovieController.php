@@ -24,7 +24,8 @@ class MovieController extends Controller
     public function search(Request $request) 
     {
         $query = $request->input('query');
-        $movies = $this->movieApi->searchMovies($query);
+        $page = $request->input('page', 1); // Default to page 1 if not provided
+        $movies = $this->movieApi->searchMovies($query, $page);
 
         return response()->json($movies);
     }
